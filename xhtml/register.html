@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Register</title>
+    </head>
+
+    <body>
+        <div style="margin: 60px;">
+            <h2 style="text-align: center; color:brown">註冊</h2>
+            <hr />
+            <form action="register.php" method="POST">
+                <table width=20% align="center" cellpadding="8">
+                    <tr>
+                        <td align="center">帳號：</td>
+                        <td align="center"><input name="username" type="text" required="required" maxlength="20" /></td>
+                    </tr>
+                    <tr>
+                        <td align="center">密碼：</td>
+                        <td align="center"><input name="passwd" type="password" required="required" maxlength="20" /></td>
+                    </tr>
+                    <tr>
+                        <td align="center">確認密碼：</td>
+                        <td align="center"><input name="repasswd" type="password" required="required" maxlength="20" /></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td align="center"><a href="login.php">返回</a></td>
+                        <td></td>
+                        <td align="center"><input type="submit" value="新增" /></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        
+    </body>
+</html>

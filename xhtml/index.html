@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Home Page</title>
+        <link rel="stylesheet" type="text/css" href="style/index.css">
+        <link rel="stylesheet" href="//apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css">
+        <script src="//apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="//apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+        <script src="js/datePicker.js" charset="utf-8"></script>
+        <script src="js/controls.js" charset="utf-8"></script>
+    
+    </head>
+
+    <body>
+        <table width=100%>
+            <tr>
+                <td width=20%>
+                    <form id="timeForm">
+                        設定運行時間
+                        <select name="time" id="time">
+                            <option value="1">1分鐘</option>
+                            <option value="3">3分鐘</option>
+                            <option value="5">5分鐘</option>
+                        </select>
+                        <input type="button" id="timeSub" value="確定" />
+                    </form>
+                </td>
+                <td width=10%>
+                    登入帳號：<?php echo $_SESSION["uname"]; ?>
+                </td>
+                
+                <td width=10%></td>
+                
+                <td width=25%>
+                    排序：
+                    <select name="order" id="order" onchange="order()">
+                        <option value="0">時間</option>
+                        <option value="1">平均負載</option>
+                        <option value="4">Task數量</option>
+                        <option value="5">Running Task數量</option>
+                        <option value="6">CPU使用率</option>
+                        <option value="7">PID[一]</option>
+                        <option value="8">PID[二]</option>
+                        <option value="9">PID[三]</option>
+                        <option value="10">執行指令[一]</option>
+                        <option value="11">執行指令[二]</option>
+                        <option value="12">執行指令[三]</option>
+                    </select>
+                順序：
+                    <select name="sc" id="sc" onchange="order()">
+                        <option value="0">由大到小</option>
+                        <option value="1">由小到大</option>
+                    </select>
+                </td>
+
+                <td width=25%>
+                    <select id="sMethod" onchange="searchMethod()">
+                        <option value="time">時間搜尋</option>
+                        <option value="pid">PID搜尋</option>
+                    </select>
+                    <input name="search"  readonly="readonly" id="datepicker" type="text" size="9" />
+                    <input id="pid" type="text" maxlength="20" style="display:none;" size="9" oninput = "value=value.replace(/[^\d]/g,'')" />
+                    <input type="button" value="搜尋" onclick="search()" />
+                    <input type="button" value="清空" onclick="resetSearch()" />
+                </td>
+
+                <td width=10%></td>
+                <td width=5%>
+                    <input type="button" id="outBtn" onclick="javascript:location.href='logout.php'" />
+                </td>
+            </tr>
+
+        </table>
+
+        <br />
+        <hr />
+        
+        <table width=100% border="1" cellpadding="3" id="dataTable">
+            <tr>
+                <th width=10%>時間</th>
+                <th width=10%>Load Average(1 / 5 / 15)</th>
+                <th width=5%>Task 數量</th>
+                <th width=5%>Running Task 數量</th>
+                <th width=10%>CPU 使用率</th>
+                <th width=20% colspan="2">CPU loading[一] PID / CPU使用量  執行指令</th>
+                <th width=20% colspan="2">CPU loading[二] PID / CPU使用量  執行指令</th>
+                <th width=20% colspan="2">CPU loading[三] PID / CPU使用量  執行指令</th>
+            </tr>
+            <?php 
+            if(!empty($data)){
+                foreach($data as $d){ 
+            ?>
+                <tr id="col">
+                    <td align="center" height=100px><?php echo $d[0] ?></td>
+                    <td align="center" height=100px><?php echo $d[1] . " / " . $d[2] . " / " . $d[3] ?></td>
+                    <td align="center" height=100px><?php echo $d[4] ?></td>
+                    <td align="center" height=100px><?php echo $d[5] ?></td>
+                    <td align="center" height=100px><?php echo $d[6] ?></td>
+                    <td width=5% align="center" height=100px><?php echo $d[7] . " / " . $d[13] . "%" ?></td>
+                    <td width=10% align="center" height=100px><?php echo $d[10] ?></td>
+                    <td width=5% align="center" height=100px><?php echo $d[8] . " / " . $d[14] . "%" ?></td>
+                    <td width=10% align="center" height=100px><?php echo $d[11] ?></td>
+                    <td width=5% align="center" height=100px><?php echo $d[9] . " / " . $d[15] . "%" ?></td>
+                    <td width=10% align="center" height=100px><?php echo $d[12] ?></td>
+                </tr>
+            <?php }} ?>
+        </table>
+        <hr />
+        <p style="text-align:center;">
+           
+            <input type="button" value="<<" id="first" onclick="firstPage()" />
+            <input type="button" value="<" id="last" onclick="lastPage(<?php echo $page; ?>)" />
+            <text>第<?php echo $page ?>頁 / 共<?php echo $pages ?>頁</text>
+            <input type="button" value=">" id="next" onclick="nextPage(<?php echo $page; ?>, <?php echo $pages; ?>)" />
+            <input type="button" value=">>" id="end" onclick="endPage(<?php echo $pages; ?>)" />
+           
+
+        </p>
+
+        <p style="text-align:center;">
+            跳頁：
+                    
+            <input name="page" id="page" type="text" size="3" oninput = "value=value.replace(/[^\d]/g,'')" />
+            <input type="button" id="pBtn" onclick="changePage(<?php echo $pages ?>)" />
+        </p>
+
+    </body>
+
+    <script>
+        page_controler(<?php echo $page ?>, <?php echo $pages ?>);
+        var uTime = <?php echo $userTime ?>;
+        var t = document.getElementById("time");
+        var optTime = t.getElementsByTagName("option");
+        if(uTime == '0') {
+            alert('此帳號沒有紀錄運行時間');
+        } else {
+            for(var i = 0; i < optTime.length; i++){
+                if(optTime[i].value == uTime) {
+                    optTime[i].selected = true;
+                    break;
+                }
+            }
+        }
+    </script>
+</html>

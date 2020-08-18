@@ -1,0 +1,58 @@
+#pBtn
+{
+    background-image: url(../images/go.png);
+    width: 20px;
+    height: 21px;
+    border:0;
+}
+
+#outBtn
+{
+    background-image: url(../images/logout.png);
+    width: 40px;
+    height: 40px;
+    border:0;
+}
+
+#first
+{
+    width:25px;
+    height:25px;
+    font-size:10px;
+    border:0;
+}
+
+#end
+{
+    width:25px;
+    height:25px;
+    font-size:10px;
+    border:0;
+}
+
+#last
+{
+    width:25px;
+    height:25px;
+    font-size:10px;
+    border:0;
+}
+
+#next
+{
+    width:25px;
+    height:25px;
+    font-size:10px;
+    border:0;
+}
+
+
+#col:hover
+{
+    background-color: #BBB;
+}
+
+#dataTable
+{
+    border-collapse: collapse; 
+}
